@@ -1,0 +1,7 @@
+{% extends "notes/base.html" %}
+{% block content %}
+<h1>{{ note.title }}</h1>
+<p><strong>Owner:</strong> {{ note.owner.username }}</p>
+<p>{{ note.content }}</p>
+<p><a href="{% url 'dashboard' %}">Back to dashboard</a></p>
+{% endblock %}

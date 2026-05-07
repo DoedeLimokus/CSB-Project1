@@ -1,0 +1,37 @@
+{% extends "notes/base.html" %}
+{% block content %}
+<h1>Your Notes</h1>
+
+<h2>Create Note</h2>
+<form method="post">
+    {% csrf_token %}
+    <label>Title</label><br>
+    <input type="text" name="title" required><br><br>
+    <label>Content</label><br>
+    <textarea name="content" rows="4" required></textarea><br><br>
+    <button type="submit">Save note</button>
+</form>
+
+<h2>Search Notes</h2>
+<form method="get">
+    <input type="text" name="q" value="{{ query }}" placeholder="Search title/content">
+    <button type="submit">Search</button>
+</form>
+
+<h2>Results</h2>
+{% if notes %}
+    {% for note in notes %}
+        <div class="note-card">
+            <h3>{{ note.title }}</h3>
+            <p>{{ note.content|truncatechars:180 }}</p>
+            <a href="{% url 'note_detail' note.id %}">View</a>
+            <form method="post" action="{% url 'delete_note' note.id %}" class="inline">
+                {% csrf_token %}
+                <button type="submit">Delete</button>
+            </form>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>No notes found.</p>
+{% endif %}
+{% endblock %}
